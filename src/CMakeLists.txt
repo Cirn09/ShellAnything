@@ -1,6 +1,7 @@
 find_package(rapidassist REQUIRED)
 find_package(tinyxml2 REQUIRED)
 find_package(glog REQUIRED)
+find_package(libmagic REQUIRED)
 
 #resource.rc
 set(SHELLANYTHING_RESOURCE_RC ${CMAKE_BINARY_DIR}/src/resource.rc)
@@ -43,6 +44,7 @@ set(SHELLANYTHING_HEADER_FILES ""
 )
 
 add_library(shellanything STATIC
+  magic_test.cpp # just for prof
   ${SHELLANYTHING_HEADER_FILES}
   ${SHELLANYTHING_EXPORT_HEADER}
   ${SHELLANYTHING_VERSION_HEADER}
@@ -149,6 +151,7 @@ target_include_directories(shellanything
     rapidassist
     glog::glog
     libeval
+    libmagic
 )
 target_include_directories(shellext
   PUBLIC
@@ -163,7 +166,7 @@ target_include_directories(libeval
   PRIVATE
     ${PACKAGE_DOWNLOAD_DIR}/exprtk-master
 )
-target_link_libraries(shellanything   PRIVATE ${PTHREAD_LIBRARIES} ${GTEST_LIBRARIES} rapidassist glog::glog libeval)
+target_link_libraries(shellanything   PRIVATE ${PTHREAD_LIBRARIES} ${GTEST_LIBRARIES} rapidassist glog::glog libeval libmagic)
 target_link_libraries(shellext        PRIVATE shellanything rapidassist glog::glog)
 
 # Also add Tinyxml2 include and libraries.
